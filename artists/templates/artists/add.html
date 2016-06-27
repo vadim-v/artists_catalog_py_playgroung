@@ -1,0 +1,52 @@
+{% extends 'master.html' %}
+{% block content %}
+<div class="header">
+	<h1>Add artist</h1>
+</div>
+
+<div class="content">
+	<p>
+		Use this form to add artist's albums to our catalog
+	</p>
+	<form class="pure-form pure-form-aligned" id="add_artist">
+		{% csrf_token %}
+		<fieldset>
+			<div class="pure-control-group">
+				<label for="name">Name</label>
+				<input id="name" name="name" type="text" placeholder="Artist name">
+			</div>
+
+			<div class="pure-controls">
+				<button type="submit" class="pure-button pure-button-primary">Add</button>
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	$(function(){
+		$('#add_artist').on('submit', function(e){
+			e.preventDefault();
+			if ($('#name').val() == '') {
+				alert("Name should not be empty.")
+			}
+			return false;
+			form_data = $(this).serialize();
+			console.log(form_data);
+
+			$.post("{% url 'process_add_artist' %}", form_data, function(resp){
+				$('.status').remove();
+				if (resp == 'ok') {
+					$('#add_artist').append($('<div class="status ok">All albums added</div>'));
+				} else {
+					$('#add_artist').append($('<div class="status error">Artist not found</div>'));
+				}
+			});
+			return false;
+		})
+	})
+</script>
+
+{% endblock %}

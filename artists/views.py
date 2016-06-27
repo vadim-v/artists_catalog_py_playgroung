@@ -4,4 +4,11 @@ from django.http import HttpResponse
 
 
 def index(request):
-  return HttpResponse("Hello, world. You're at the artists index.")
+	return render(request, 'artists/index.html', {})
+
+def add_artist(request):
+	return render(request, 'artists/add.html', {})
+
+def process_add_artist(request):
+	print request.POST
+	return HttpResponse('ok');
