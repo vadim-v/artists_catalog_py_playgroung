@@ -30,15 +30,16 @@
 		$('#add_artist').on('submit', function(e){
 			e.preventDefault();
 			if ($('#name').val() == '') {
-				alert("Name should not be empty.")
+				alert("Name should not be empty.");
+				return false;
 			}
-			return false;
 			form_data = $(this).serialize();
 			console.log(form_data);
 
 			$.post("{% url 'process_add_artist' %}", form_data, function(resp){
 				$('.status').remove();
 				if (resp == 'ok') {
+					$('#name').val('');
 					$('#add_artist').append($('<div class="status ok">All albums added</div>'));
 				} else {
 					$('#add_artist').append($('<div class="status error">Artist not found</div>'));
