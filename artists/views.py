@@ -23,6 +23,15 @@ def fetch_albums(request, artist_id):
 
   return render(request, 'artists/albums.html', { 'albums': albums, 'artist_id': artist_id })
 
+def search_albums(request):
+  artist_id = request.POST.get('artist_id')
+  artist = Artist.objects.get(id=artist_id)
+
+  search_term = request.POST.get('term')
+  albums = artist.album_set.filter(name__contains=search_term)
+
+  return render(request, 'artists/albums.html', {'albums': albums, 'artist_id': artist_id})
+
 def add_artist(request):
   return render(request, 'artists/add.html', {})
 
