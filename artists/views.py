@@ -35,7 +35,7 @@ def process_add_artist(request):
       artist.save()
 
       for result in albums_data.get('results'):
-        artist.album_set.create(name=result['collectionName'], image_url=result['artworkUrl100'])
+        artist.album_set.create(name=result['collectionName'], image_url=result['artworkUrl100'], release_date=result['releaseDate'])
 
     else:
       return HttpResponse('err')
