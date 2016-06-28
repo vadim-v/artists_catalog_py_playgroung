@@ -1,3 +1,4 @@
+Order by: <a href="#" class="fetch-albums" data-artist="{{ artist_id }}" data-order="asc">Release date (asc)</a>
 <ul style="list-style-type: none">
     {% for album in albums %}
         <li>
@@ -15,3 +16,6 @@
         </li>
     {% endfor %}
 </ul>
+<script>
+    $('.fetch-albums').on('click', fetch_albums);
+</script>

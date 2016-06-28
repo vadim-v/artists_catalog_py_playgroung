@@ -15,8 +15,13 @@ def browse_artist(request):
 
 def fetch_albums(request, artist_id):
   artist = Artist.objects.get(id=artist_id)
-  albums = artist.album_set.all()
-  return render(request, 'artists/albums.html', { 'albums': albums })
+
+  if request.GET.get('order') == 'asc':
+    albums = artist.album_set.order_by('release_date')
+  else:
+    albums = artist.album_set.all()
+
+  return render(request, 'artists/albums.html', { 'albums': albums, 'artist_id': artist_id })
 
 def add_artist(request):
   return render(request, 'artists/add.html', {})

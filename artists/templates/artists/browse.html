@@ -26,14 +26,21 @@
 <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
 
 <script>
-    $(function(){
-        $('.fetch-albums').on('click', function(e){
-            e.preventDefault();
+    var fetch_albums = function(e){
+        e.preventDefault();
 
-            $.get('/artists/fetch_albums/' + $(this).data('artist'), function(response){
-               $('#albums').html(response);
-            });
-        })
+        var url = '/artists/fetch_albums/' + $(this).data('artist')
+        if ($(this).data('order') !== undefined) {
+            url += "?order=asc"
+        }
+
+        $.get(url, function(response){
+           $('#albums').html(response);
+        });
+    };
+
+    $(function(){
+        $('.fetch-albums').on('click', fetch_albums);
     })
 </script>
 {% endblock %}
