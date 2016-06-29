@@ -16,12 +16,18 @@ def browse_artist(request):
 def fetch_albums(request, artist_id):
   artist = Artist.objects.get(id=artist_id)
 
+  template = 'artists/albums.html'
+  page_template = 'artists/albums_entries.html'
+
+  if request.is_ajax() and request.POST.get('pagination') is None:
+    template = page_template
+
   if request.GET.get('order') == 'asc':
     albums = artist.album_set.order_by('release_date')
   else:
     albums = artist.album_set.all()
 
-  return render(request, 'artists/albums.html', { 'albums': albums, 'artist_id': artist_id })
+  return render(request, template, { 'albums': albums, 'artist_id': artist_id, 'page_template': page_template })
 
 def search_albums(request):
   artist_id = request.POST.get('artist_id')

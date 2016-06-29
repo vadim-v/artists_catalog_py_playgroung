@@ -24,17 +24,17 @@
 
 
 <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
-
+<script src="/static/el-pagination.js"></script>
 <script>
     var fetch_albums = function(e){
         e.preventDefault();
 
-        var url = '/artists/fetch_albums/' + $(this).data('artist')
+        var url = '/artists/fetch_albums/' + $(this).data('artist') + '/'
         if ($(this).data('order') !== undefined) {
             url += "?order=asc"
         }
 
-        $.get(url, function(response){
+        $.post(url, { pagination: false, csrfmiddlewaretoken: '{{ csrf_token }}' }, function(response){
            $('#albums').html(response);
         });
     };
