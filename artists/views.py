@@ -33,10 +33,16 @@ def search_albums(request):
   artist_id = request.POST.get('artist_id')
   artist = Artist.objects.get(id=artist_id)
 
+  template = 'artists/albums.html'
+  page_template = 'artists/albums_entries.html'
+  if request.is_ajax() and request.POST.get('pagination') is None:
+    template = page_template
+
+
   search_term = request.POST.get('term')
   albums = artist.album_set.filter(name__contains=search_term)
 
-  return render(request, 'artists/albums.html', {'albums': albums, 'artist_id': artist_id})
+  return render(request, template, {'albums': albums, 'artist_id': artist_id, 'page_template': page_template})
 
 def add_artist(request):
   return render(request, 'artists/add.html', {})
